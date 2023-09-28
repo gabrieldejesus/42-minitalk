@@ -6,7 +6,7 @@
 /*   By: gde-jesu <gde-jesu@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/22 07:43:50 by gde-jesu          #+#    #+#             */
-/*   Updated: 2023/09/28 10:18:08 by gde-jesu         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:13:41 by gde-jesu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	handler_sigusr(int signum)
 }
 
 int	main(int argc, char *argv[])
-{	
+{
 	int		counter;
 	pid_t	pid;
 
