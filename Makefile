@@ -6,11 +6,11 @@
 #    By: gde-jesu <gde-jesu@student.42.rio>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/11 05:55:15 by gde-jesu          #+#    #+#              #
-#    Updated: 2023/09/28 10:17:08 by gde-jesu         ###   ########.fr        #
+#    Updated: 2023/09/28 11:12:29 by gde-jesu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Library Name #
+ #Library Name #
 CLIENT			=	client
 SERVER			=	server
 CLIENT_BONUS	=	client_bonus
@@ -22,8 +22,8 @@ CFLAG	=	-Wall -Wextra -Werror
 RM		=	rm -f
 
 # Libft Variables #
-LIBFT		=	./libft/libft.a
-LIBFT_DIR	=	./libft
+LIBFT		=	./42-Libft/libft.a
+LIBFT_DIR	=	./42-Libft
 INC			=	-I. -I$(LIBFT_DIR)
 
 # Sources Variables #
@@ -40,44 +40,39 @@ RESET = \e[0m
 _SUCCESS = ✨ $(GREEN)Compiled successfully$(RESET)
 _INFO = 🚀 $(YELLOW)Info$(RESET)
 
-# Functions #
-all: $(SERVER) $(CLIENT) $(SERVER_BONUS) $(CLIENT_BONUS)
+all: $(LIBFT) $(SERVER) $(CLIENT)
+	@printf "$(_SUCCESS) minitalk.\n"
 
 $(NAME): all
 
-$(SERVER): $(LIBFT)
-	@$(CC) $(CFLAG) $(SRC_S) $(LIBFT) $(INC) -o $(SERVER)
-	@printf "$(_SUCCESS) server mandatory is ready.\n"
-
-$(CLIENT): $(LIBFT)
-	@$(CC) $(CFLAG) $(SRC_C) $(LIBFT) $(INC) -o $(CLIENT)
-	@printf "$(_SUCCESS) client mandatory is ready.\n"
-
-$(SERVER_BONUS): $(LIBFT)
-	@$(CC) $(CFLAG) $(SRC_S) $(LIBFT) $(INC) -o $(SERVER_BONUS)
-	@printf "$(_SUCCESS) server bonus is ready.\n"
-
-$(CLIENT_BONUS): $(LIBFT)
-	@$(CC) $(CFLAG) $(SRC_C) $(LIBFT) $(INC) -o $(CLIENT_BONUS)
-	@printf "$(_SUCCESS) client bonus is ready.\n"
-
 $(LIBFT):
-	@$(MAKE) -C ./libft
+	@$(MAKE) -C $(LIBFT_DIR)
+	
+$(SERVER):
+	@$(CC) $(CFLAG) $(MANDATORY_SRCS_SERVER) $(LIBFT) $(INC) -o $(SERVER)
 
-bonus: $(CLIENT_BONUS) $(SERVER_BONUS)
+$(CLIENT):
+	@$(CC) $(CFLAG) $(MANDATORY_SRCS_CLIENT) $(LIBFT) $(INC) -o $(CLIENT)
+
+$(SERVER_BONUS):
+	@$(CC) $(CFLAG) $(BONUS_SRCS_SERVER) $(LIBFT) $(INC) -o $(SERVER_BONUS)
+
+$(CLIENT_BONUS):
+	@$(CC) $(CFLAG) $(BONUS_SRCS_CLIENT) $(LIBFT) $(INC) -o $(CLIENT_BONUS)
+
+bonus: $(LIBFT) $(SERVER_BONUS) $(CLIENT_BONUS)
+	@printf "$(_SUCCESS) minitalk bonus.\n"
 
 clean:
-	@$(MAKE) fclean -C $(LIBFT_DIR)
-	@$(RM) $(CLIENT) $(SERVER)
-	@printf "$(_INFO) client mandatory removed.\n"
-	@printf "$(_INFO) server mandatory removed.\n"
-	@$(RM) $(CLIENT_BONUS) $(SERVER_BONUS)
-	@printf "$(_INFO) client bonus removed.\n"
-	@printf "$(_INFO) server bonus removed.\n"
-
-fclean: clean
 	@$(RM) $(CLIENT) $(SERVER) $(CLIENT_BONUS) $(SERVER_BONUS)
+	@$(MAKE) clean -C $(LIBFT_DIR)
+	@printf "$(_INFO) minitalk cleaning done.\n"
+
+fclean:
+	@$(RM) $(CLIENT) $(SERVER) $(CLIENT_BONUS) $(SERVER_BONUS)
+	@$(MAKE) fclean -C $(LIBFT_DIR)
+	@printf "$(_INFO) minitalk cleaning done.\n"
 
 re: fclean all
 
-.PHONY: all fclean clean re
+.PHONY: all fclean clean re bonus
